@@ -362,7 +362,6 @@ func TestTypedHelpers_DefaultAndNoDefaultFallbacks(t *testing.T) {
 	assert.Equal(t, uint(0), c.QueryUint("missingQu"))
 }
 
-
 // Convenience Methods Tests
 
 func TestRedirect(t *testing.T) {
@@ -540,7 +539,7 @@ func TestNoContentWhenHeadersAlreadyWritten(t *testing.T) {
 	// Write headers first
 	c.Header("X-Test", "value")
 	c.w.WriteHeader(http.StatusOK)
-	c.wroteHeader = true
+	c.setWroteHeader(true)
 
 	// Now call NoContent - should not change status since headers already written
 	require.NoError(t, c.NoContent())
@@ -586,7 +585,7 @@ func TestStreamWhenHeadersAlreadyWritten(t *testing.T) {
 	// Write headers first
 	c.Header("X-Test", "value")
 	c.w.WriteHeader(http.StatusOK)
-	c.wroteHeader = true
+	c.setWroteHeader(true)
 
 	content := "streamed content"
 	reader := strings.NewReader(content)

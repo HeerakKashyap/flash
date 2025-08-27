@@ -3,6 +3,7 @@ package ctx
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"html"
 	"io"
 	"log/slog"
@@ -1079,10 +1080,10 @@ func (c *DefaultContext) Send(status int, contentType string, b []byte) (int, er
 
 // Redirect sends a redirect response with the given status code and URL.
 func (c *DefaultContext) Redirect(status int, url string) error {
-	if !c.wroteHeader {
+	if !c.wroteHeader() {
 		c.Header("Location", url)
 		c.w.WriteHeader(status)
-		c.wroteHeader = true
+		c.setWroteHeader(true)
 	}
 	return nil
 }
@@ -1120,7 +1121,7 @@ func (c *DefaultContext) FileFromFS(path string, fs http.FileSystem) error {
 	}
 
 	// Set content type if not already set
-	if !c.wroteHeader {
+	if !c.wroteHeader() {
 		contentType := "application/octet-stream"
 		if ext := strings.ToLower(strings.TrimPrefix(path, ".")); ext != "" {
 			if mimeType := http.DetectContentType([]byte(ext)); mimeType != "application/octet-stream" {
@@ -1129,7 +1130,7 @@ func (c *DefaultContext) FileFromFS(path string, fs http.FileSystem) error {
 		}
 		c.Header("Content-Type", contentType)
 		c.w.WriteHeader(http.StatusOK)
-		c.wroteHeader = true
+		c.setWroteHeader(true)
 	}
 
 	// Copy file content to response
@@ -1185,21 +1186,21 @@ func (c *DefaultContext) Forbidden(message ...string) error {
 
 // NoContent sends a 204 No Content response.
 func (c *DefaultContext) NoContent() error {
-	if !c.wroteHeader {
+	if !c.wroteHeader() {
 		c.w.WriteHeader(http.StatusNoContent)
-		c.wroteHeader = true
+		c.setWroteHeader(true)
 	}
 	return nil
 }
 
 // Stream streams data from an io.Reader with the given status and content type.
 func (c *DefaultContext) Stream(status int, contentType string, reader io.Reader) error {
-	if !c.wroteHeader {
+	if !c.wroteHeader() {
 		if contentType != "" {
 			c.Header("Content-Type", contentType)
 		}
 		c.w.WriteHeader(status)
-		c.wroteHeader = true
+		c.setWroteHeader(true)
 	}
 
 	written, err := io.Copy(c.w, reader)
@@ -1212,7 +1213,7 @@ func (c *DefaultContext) StreamJSON(status int, v any) error {
 	buf := jsonBufPool.Get().(*bytes.Buffer)
 	buf.Reset()
 	enc := json.NewEncoder(buf)
-	enc.SetEscapeHTML(c.jsonEscape)
+	enc.SetEscapeHTML(c.jsonEscape())
 
 	if err := enc.Encode(v); err != nil {
 		jsonBufPool.Put(buf)
@@ -1225,10 +1226,10 @@ func (c *DefaultContext) StreamJSON(status int, v any) error {
 		b = b[:n-1]
 	}
 
-	if !c.wroteHeader {
+	if !c.wroteHeader() {
 		c.Header("Content-Type", "application/json; charset=utf-8")
 		c.w.WriteHeader(status)
-		c.wroteHeader = true
+		c.setWroteHeader(true)
 	}
 
 	_, err := c.w.Write(b)
