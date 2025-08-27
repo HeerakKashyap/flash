@@ -40,7 +40,14 @@ type BufferConfig struct {
 // bufPool is a global sync.Pool for *bytes.Buffer used by the Buffer middleware.
 // This reduces allocations and GC pressure for each request, especially for small/medium responses.
 // Buffers are always Reset before reuse, and never shared between requests.
-var bufPool = sync.Pool{New: func() any { return new(bytes.Buffer) }}
+var bufPool = sync.Pool{
+	New: func() any {
+		// Pre-allocate with high-pressure capacity to reduce growth reallocations
+		// Under high RPS, larger initial buffers prevent expensive reallocations
+		buf := make([]byte, 0, 4096) // 4KB for high-pressure scenarios
+		return bytes.NewBuffer(buf)
+	},
+}
 
 // Buffer returns middleware that wraps the ResponseWriter with a pooled buffer
 // to reduce syscalls and to set an accurate Content-Length when possible.

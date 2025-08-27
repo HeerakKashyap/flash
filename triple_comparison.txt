@@ -1,0 +1,12 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/goflash/flash/v2/internal/performance
+cpu: Apple M3 Pro
+BenchmarkTripleComparison_SimpleHandler/Original-11         	 2931174	       408.3 ns/op	    1040 B/op	      10 allocs/op
+BenchmarkTripleComparison_SimpleHandler/Optimized-11        	 2958778	       412.6 ns/op	    1040 B/op	      10 allocs/op
+BenchmarkTripleComparison_SimpleHandler/Ultra-11            	 2119958	       613.3 ns/op	    1016 B/op	      10 allocs/op
+BenchmarkTripleComparison_JSONResponse/Original-11          	 1552478	       776.6 ns/op	    1569 B/op	      16 allocs/op
+BenchmarkTripleComparison_JSONResponse/Optimized-11         	 1547899	       776.9 ns/op	    1569 B/op	      16 allocs/op
+BenchmarkTripleComparison_JSONResponse/Ultra-11             	 1233632	       968.9 ns/op	    1537 B/op	      15 allocs/op
+PASS
+ok  	github.com/goflash/flash/v2/internal/performance	12.905s
