@@ -102,8 +102,8 @@ func TestANYRegistersAllMethods(t *testing.T) {
 
 func TestCustomNotFoundAndMethodNAAndOnError(t *testing.T) {
 	a := New()
-	a.SetNotFoundHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(404); io.WriteString(w, "NF") }))
-	a.SetMethodNotAllowedHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(405); io.WriteString(w, "MNA") }))
+	a.SetNotFoundHandler(func(c Ctx) error { return c.String(404, "NF") })
+	a.SetMethodNotAllowedHandler(func(c Ctx) error { return c.String(405, "MNA") })
 
 	// NotFound
 	rec := httptest.NewRecorder()

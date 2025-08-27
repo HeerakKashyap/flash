@@ -38,11 +38,11 @@ type App interface {
 
 	// Error/NotFound/MethodNotAllowed handlers
 	SetErrorHandler(h ErrorHandler)
-	SetNotFoundHandler(h http.Handler)
-	SetMethodNotAllowedHandler(h http.Handler)
+	SetNotFoundHandler(h Handler)
+	SetMethodNotAllowedHandler(h Handler)
 
 	// Getters for handlers (mirrors Set*). Useful when holding App as an interface.
 	ErrorHandler() ErrorHandler
-	NotFoundHandler() http.Handler
-	MethodNotAllowedHandler() http.Handler
+	NotFoundHandler() Handler
+	MethodNotAllowedHandler() Handler
 }

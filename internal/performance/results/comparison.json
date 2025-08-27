@@ -1,0 +1,229 @@
+{
+  "current": {
+    "timestamp": "2025-08-26T22:01:39.576917+03:00",
+    "git_commit": "fc296d4296abfcb9ac9a2a65a36a5f3ff3d0241a",
+    "go_version": "go1.23.10",
+    "os": "darwin",
+    "arch": "arm64",
+    "cpu_model": "Apple M3 Pro",
+    "num_cpu": 11,
+    "results": [
+      {
+        "name": "BenchmarkBaseline_SimpleHandler",
+        "ns_per_op": 421.8,
+        "bytes_per_op": 1040,
+        "allocs_per_op": 10,
+        "cpus": 11,
+        "iterations": 2697992
+      },
+      {
+        "name": "BenchmarkBaseline_JSONResponse",
+        "ns_per_op": 1009,
+        "bytes_per_op": 1569,
+        "allocs_per_op": 16,
+        "cpus": 11,
+        "iterations": 1000000
+      },
+      {
+        "name": "BenchmarkBaseline_PathParams",
+        "ns_per_op": 729,
+        "bytes_per_op": 1562,
+        "allocs_per_op": 17,
+        "cpus": 11,
+        "iterations": 1660500
+      },
+      {
+        "name": "BenchmarkBaseline_QueryParams",
+        "ns_per_op": 1073,
+        "bytes_per_op": 2034,
+        "allocs_per_op": 24,
+        "cpus": 11,
+        "iterations": 1000000
+      },
+      {
+        "name": "BenchmarkBaseline_JSONBinding",
+        "ns_per_op": 3713,
+        "bytes_per_op": 9458,
+        "allocs_per_op": 70,
+        "cpus": 11,
+        "iterations": 329842
+      },
+      {
+        "name": "BenchmarkBaseline_Middleware",
+        "ns_per_op": 479.1,
+        "bytes_per_op": 1072,
+        "allocs_per_op": 11,
+        "cpus": 11,
+        "iterations": 2425210
+      },
+      {
+        "name": "BenchmarkBaseline_ErrorHandling",
+        "ns_per_op": 418.4,
+        "bytes_per_op": 1040,
+        "allocs_per_op": 10,
+        "cpus": 11,
+        "iterations": 2893802
+      },
+      {
+        "name": "BenchmarkBaseline_LargeJSON",
+        "ns_per_op": 19959,
+        "bytes_per_op": 19490,
+        "allocs_per_op": 325,
+        "cpus": 11,
+        "iterations": 59554
+      }
+    ],
+    "summary": {
+      "total_tests": 8,
+      "simple_handler_ns": 421.8,
+      "json_response_ns": 1009,
+      "high_pressure_best_ns": 0,
+      "memory_per_request": 1040,
+      "allocs_per_request": 10
+    }
+  },
+  "previous": {
+    "timestamp": "2025-08-26T21:59:33.687049+03:00",
+    "git_commit": "fc296d4296abfcb9ac9a2a65a36a5f3ff3d0241a",
+    "go_version": "go1.23.10",
+    "os": "darwin",
+    "arch": "arm64",
+    "cpu_model": "Apple M3 Pro",
+    "num_cpu": 11,
+    "results": [
+      {
+        "name": "BenchmarkBaseline_SimpleHandler",
+        "ns_per_op": 435.5,
+        "bytes_per_op": 1040,
+        "allocs_per_op": 10,
+        "cpus": 11,
+        "iterations": 2769438
+      },
+      {
+        "name": "BenchmarkBaseline_JSONResponse",
+        "ns_per_op": 940.4,
+        "bytes_per_op": 1569,
+        "allocs_per_op": 16,
+        "cpus": 11,
+        "iterations": 1524860
+      },
+      {
+        "name": "BenchmarkBaseline_PathParams",
+        "ns_per_op": 917.5,
+        "bytes_per_op": 1562,
+        "allocs_per_op": 17,
+        "cpus": 11,
+        "iterations": 1577416
+      },
+      {
+        "name": "BenchmarkBaseline_QueryParams",
+        "ns_per_op": 1083,
+        "bytes_per_op": 2034,
+        "allocs_per_op": 24,
+        "cpus": 11,
+        "iterations": 1000000
+      },
+      {
+        "name": "BenchmarkBaseline_JSONBinding",
+        "ns_per_op": 3812,
+        "bytes_per_op": 9458,
+        "allocs_per_op": 70,
+        "cpus": 11,
+        "iterations": 308600
+      },
+      {
+        "name": "BenchmarkBaseline_Middleware",
+        "ns_per_op": 629.1,
+        "bytes_per_op": 1072,
+        "allocs_per_op": 11,
+        "cpus": 11,
+        "iterations": 2282622
+      },
+      {
+        "name": "BenchmarkBaseline_ErrorHandling",
+        "ns_per_op": 469.8,
+        "bytes_per_op": 1040,
+        "allocs_per_op": 10,
+        "cpus": 11,
+        "iterations": 2788657
+      },
+      {
+        "name": "BenchmarkBaseline_LargeJSON",
+        "ns_per_op": 19995,
+        "bytes_per_op": 19491,
+        "allocs_per_op": 325,
+        "cpus": 11,
+        "iterations": 60921
+      }
+    ],
+    "summary": {
+      "total_tests": 8,
+      "simple_handler_ns": 435.5,
+      "json_response_ns": 940.4,
+      "high_pressure_best_ns": 0,
+      "memory_per_request": 1040,
+      "allocs_per_request": 10
+    }
+  },
+  "improvements": [
+    {
+      "test_name": "BenchmarkBaseline_JSONBinding",
+      "current_ns": 3713,
+      "previous_ns": 3812,
+      "percent_change": -2.597061909758657,
+      "absolute_change_ns": -99,
+      "significance": "negligible"
+    },
+    {
+      "test_name": "BenchmarkBaseline_Middleware",
+      "current_ns": 479.1,
+      "previous_ns": 629.1,
+      "percent_change": -23.843586075345733,
+      "absolute_change_ns": -150,
+      "significance": "major"
+    },
+    {
+      "test_name": "BenchmarkBaseline_ErrorHandling",
+      "current_ns": 418.4,
+      "previous_ns": 469.8,
+      "percent_change": -10.940825883354625,
+      "absolute_change_ns": -51.400000000000034,
+      "significance": "major"
+    },
+    {
+      "test_name": "BenchmarkBaseline_SimpleHandler",
+      "current_ns": 421.8,
+      "previous_ns": 435.5,
+      "percent_change": -3.1458094144661284,
+      "absolute_change_ns": -13.699999999999989,
+      "significance": "minor"
+    },
+    {
+      "test_name": "BenchmarkBaseline_PathParams",
+      "current_ns": 729,
+      "previous_ns": 917.5,
+      "percent_change": -20.544959128065397,
+      "absolute_change_ns": -188.5,
+      "significance": "major"
+    }
+  ],
+  "regressions": [
+    {
+      "test_name": "BenchmarkBaseline_JSONResponse",
+      "current_ns": 1009,
+      "previous_ns": 940.4,
+      "percent_change": 7.294768183751597,
+      "absolute_change_ns": 68.60000000000002,
+      "significance": "minor"
+    }
+  ],
+  "overall_status": "improved",
+  "summary": {
+    "total_improved_tests": 5,
+    "total_regressed_tests": 1,
+    "total_stable_tests": 2,
+    "avg_improvement_percent": 12.214448482198106,
+    "avg_regression_percent": 7.294768183751597,
+    "major_changes": 3
+  }
+}

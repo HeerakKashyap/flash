@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"log/slog"
 	"time"
 
 	"github.com/goflash/flash/v2"
@@ -278,7 +279,13 @@ func Logger(options ...LoggerOption) flash.Middleware {
 				remote = r.RemoteAddr
 			}
 
-			l := ctx.LoggerFromContext(c.Context())
+			// Get logger from app context or request context (fallback for compatibility)
+			var l *slog.Logger
+			if dc, ok := c.(*ctx.DefaultContext); ok {
+				l = dc.AppLogger()
+			} else {
+				l = ctx.LoggerFromContext(c.Context())
+			}
 
 			// Pre-allocate slice with estimated capacity for better performance
 			// Standard fields: 8 pairs, custom attributes: variable, request_id: 1 pair

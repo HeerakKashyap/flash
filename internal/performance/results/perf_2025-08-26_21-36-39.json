@@ -1,0 +1,83 @@
+{
+  "timestamp": "2025-08-26T21:36:39.930644+03:00",
+  "git_commit": "fc296d4296abfcb9ac9a2a65a36a5f3ff3d0241a",
+  "go_version": "go1.23.10",
+  "os": "darwin",
+  "arch": "arm64",
+  "cpu_model": "Apple M3 Pro",
+  "num_cpu": 11,
+  "results": [
+    {
+      "name": "BenchmarkBaseline_SimpleHandler",
+      "ns_per_op": 447.6,
+      "bytes_per_op": 1040,
+      "allocs_per_op": 10,
+      "cpus": 11,
+      "iterations": 2691392
+    },
+    {
+      "name": "BenchmarkBaseline_JSONResponse",
+      "ns_per_op": 789.9,
+      "bytes_per_op": 1570,
+      "allocs_per_op": 16,
+      "cpus": 11,
+      "iterations": 1532853
+    },
+    {
+      "name": "BenchmarkBaseline_PathParams",
+      "ns_per_op": 968.2,
+      "bytes_per_op": 1810,
+      "allocs_per_op": 21,
+      "cpus": 11,
+      "iterations": 1232904
+    },
+    {
+      "name": "BenchmarkBaseline_QueryParams",
+      "ns_per_op": 1108,
+      "bytes_per_op": 2034,
+      "allocs_per_op": 24,
+      "cpus": 11,
+      "iterations": 1000000
+    },
+    {
+      "name": "BenchmarkBaseline_JSONBinding",
+      "ns_per_op": 3769,
+      "bytes_per_op": 9460,
+      "allocs_per_op": 70,
+      "cpus": 11,
+      "iterations": 306296
+    },
+    {
+      "name": "BenchmarkBaseline_Middleware",
+      "ns_per_op": 499.7,
+      "bytes_per_op": 1072,
+      "allocs_per_op": 11,
+      "cpus": 11,
+      "iterations": 2433936
+    },
+    {
+      "name": "BenchmarkBaseline_ErrorHandling",
+      "ns_per_op": 439.3,
+      "bytes_per_op": 1040,
+      "allocs_per_op": 10,
+      "cpus": 11,
+      "iterations": 2750858
+    },
+    {
+      "name": "BenchmarkBaseline_LargeJSON",
+      "ns_per_op": 20152,
+      "bytes_per_op": 19497,
+      "allocs_per_op": 325,
+      "cpus": 11,
+      "iterations": 60400
+    }
+  ],
+  "summary": {
+    "total_tests": 8,
+    "simple_handler_ns": 447.6,
+    "json_response_ns": 789.9,
+    "high_pressure_best_ns": 0,
+    "memory_per_request": 1040,
+    "allocs_per_request": 10
+  }
+}
