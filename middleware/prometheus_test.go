@@ -165,6 +165,17 @@ func TestMountPrometheus(t *testing.T) {
 		return c.String(http.StatusOK, "ok")
 	})
 
+	// First make a request to generate metrics
+	t.Run("generate_metrics", func(t *testing.T) {
+		req := httptest.NewRequest(http.MethodGet, "/test", nil)
+		rec := httptest.NewRecorder()
+
+		app.ServeHTTP(rec, req)
+
+		assert.Equal(t, http.StatusOK, rec.Code)
+		assert.Equal(t, "ok", rec.Body.String())
+	})
+
 	// Test that metrics endpoint is available
 	t.Run("mount_prometheus_metrics", func(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/metrics", nil)

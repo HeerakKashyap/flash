@@ -35,7 +35,7 @@ func TestPprof(t *testing.T) {
 		{
 			name:           "default prefix profile",
 			config:         PprofConfig{},
-			path:           "/debug/pprof/profile",
+			path:           "/debug/pprof/profile?seconds=1",
 			expectedStatus: http.StatusOK,
 			expectedBody:   "",
 		},
@@ -203,7 +203,7 @@ func TestPprofSecurity(t *testing.T) {
 	pprofEndpoints := []string{
 		"/debug/pprof/",
 		"/debug/pprof/cmdline",
-		"/debug/pprof/profile",
+		"/debug/pprof/profile?seconds=1",
 		"/debug/pprof/symbol",
 		"/debug/pprof/trace",
 		"/debug/pprof/heap",
