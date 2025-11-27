@@ -157,3 +157,95 @@ func TestClientIPExtraction(t *testing.T) {
 		}
 	}
 }
+
+func TestFixedWindowLimiter(t *testing.T) {
+	lim := NewFixedWindowLimiter(2, 100*time.Millisecond)
+
+	// First two requests should pass
+	allowed, _ := lim.Allow("key1")
+	if !allowed {
+		t.Fatal("first request should be allowed")
+	}
+	allowed, _ = lim.Allow("key1")
+	if !allowed {
+		t.Fatal("second request should be allowed")
+	}
+
+	// Third should be blocked
+	allowed, retry := lim.Allow("key1")
+	if allowed {
+		t.Fatal("third request should be blocked")
+	}
+	if retry <= 0 {
+		t.Fatal("retry should be positive")
+	}
+
+	// Wait for window to reset
+	time.Sleep(110 * time.Millisecond)
+	allowed, _ = lim.Allow("key1")
+	if !allowed {
+		t.Fatal("request after window reset should be allowed")
+	}
+}
+
+func TestFixedWindowLimiterDifferentKeys(t *testing.T) {
+	lim := NewFixedWindowLimiter(1, 100*time.Millisecond)
+
+	// Different keys should have separate limits
+	allowed1, _ := lim.Allow("key1")
+	allowed2, _ := lim.Allow("key2")
+
+	if !allowed1 || !allowed2 {
+		t.Fatal("different keys should have independent limits")
+	}
+}
+
+func TestSlidingWindowLimiter(t *testing.T) {
+	lim := NewSlidingWindowLimiter(2, 100*time.Millisecond)
+
+	// First two requests should pass
+	allowed, _ := lim.Allow("key1")
+	if !allowed {
+		t.Fatal("first request should be allowed")
+	}
+	allowed, _ = lim.Allow("key1")
+	if !allowed {
+		t.Fatal("second request should be allowed")
+	}
+
+	// Third should be blocked
+	allowed, retry := lim.Allow("key1")
+	if allowed {
+		t.Fatal("third request should be blocked")
+	}
+	if retry <= 0 {
+		t.Fatal("retry should be positive")
+	}
+
+	// Wait for oldest request to expire
+	time.Sleep(110 * time.Millisecond)
+	allowed, _ = lim.Allow("key1")
+	if !allowed {
+		t.Fatal("request after window slide should be allowed")
+	}
+}
+
+func TestSlidingWindowLimiterWithMiddleware(t *testing.T) {
+	a := flash.New()
+	lim := NewSlidingWindowLimiter(1, 50*time.Millisecond)
+	a.Use(RateLimit(lim))
+	a.GET("/", func(c flash.Ctx) error { return c.String(http.StatusOK, "ok") })
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	rec := httptest.NewRecorder()
+	a.ServeHTTP(rec, req)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("first request should pass, got %d", rec.Code)
+	}
+
+	rec = httptest.NewRecorder()
+	a.ServeHTTP(rec, req)
+	if rec.Code != http.StatusTooManyRequests {
+		t.Fatalf("second request should be 429, got %d", rec.Code)
+	}
+}
